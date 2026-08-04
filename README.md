@@ -1,5 +1,7 @@
 # Website Scraper to CSV
 
+[![Tests](https://github.com/artyom129/website-scraper-to-csv/actions/workflows/tests.yml/badge.svg)](https://github.com/artyom129/website-scraper-to-csv/actions/workflows/tests.yml)
+
 A clean Python scraping project that collects structured product data across multiple pages and exports deduplicated records to CSV.
 
 ## Business problem
