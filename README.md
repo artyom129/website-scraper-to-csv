@@ -1,3 +1,5 @@
+**English** | [Русский](README_RU.md)
+
 # Website Scraper to CSV
 
 A clean Python scraping project that collects structured product data across multiple pages and exports deduplicated records to CSV.
