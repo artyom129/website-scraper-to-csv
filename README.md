@@ -26,7 +26,7 @@ Copying product data out of catalogs and directories by hand is slow, and the re
 |---|---|
 | 🔗 | Starts from any listing page and follows the "next" link until the pages run out or a page limit is reached |
 | 🧾 | Reads title, price, availability, rating, and product URL for every item |
-| 🧭 | Resolves each product link against the page it was found on (see the bug notes below) |
+| 🧭 | Resolves each product link against the page it was found on, so links stay correct on every catalog page |
 | 🧹 | Keeps one record per product URL, even when pages overlap |
 | 🔁 | Retries timeouts, connection errors, and 5xx responses with a growing pause. A 404 is not retried |
 | 🛑 | Stops by itself if the pagination links form a loop |
@@ -135,18 +135,6 @@ next_link = soup.select_one("li.next a")                 # pagination
 Retries, link resolution, loop protection, deduplication, and CSV export work on any site without changes. Check the site's terms of use and robots.txt before you scrape it.
 
 Typical uses: business directories, real estate listings, e-commerce catalog research, and product availability tracking.
-
-<details>
-<summary>🐛 Problems found and fixed while building this</summary>
-
-<br>
-
-- **Broken links after page 1.** On this catalog, page 1 links look like `catalogue/book_1/index.html`, but page 2 and later use `book_2/index.html`, relative to `/catalogue/`. Joining every link to the site root produced URLs that do not exist. Links are now joined to the URL of the page they were found on.
-- **`Â£` instead of `£`.** The server sends no charset, so `response.text` guessed ISO-8859-1. The scraper now hands the raw bytes to BeautifulSoup, which reads the charset from the page.
-- **Excel and UTF-8.** Excel opens a UTF-8 CSV as ANSI unless the file starts with a BOM, so the export adds one.
-- **Endless crawls.** A site whose "next" link points back to an earlier page would keep the scraper running forever. Visited URLs are remembered and the crawl stops on the first repeat.
-
-</details>
 
 ## 🧪 Tests
 
